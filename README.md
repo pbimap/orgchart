@@ -39,29 +39,13 @@ Example dataset structure:
 3. The chart renders automatically—root nodes have no manager.
 4. Use toolbar for layout/zoom; format pane for styles.
 
-## Formatting Options
+### Test Data  
+https://github.com/pbimap/orgchart/blob/main/data/Test_data.csv
+<img width="1460" height="601" alt="image" src="https://github.com/user-attachments/assets/67d10414-dbad-4bec-a734-30dd74a35bcd" />  
 
-Access via Power BI's **Format** pane:
+#### Sample Data format:
+<img width="1062" height="526" alt="image" src="https://github.com/user-attachments/assets/9efca58e-f824-4971-a335-06f0a60ec706" />
 
-### Layout
-- Node width/height (default: 260x140 px)
-- Horizontal/vertical spacing (60/80 px)
-- Initial expanded levels (0–6, default 2)
-- Enable zoom & pan (on/off)
-- Show toolbar (on/off)
-
-### Card
-- Background/accent/border/text colors
-- Border width/radius (1/18 px)
-- Drop shadow (on/off)
-- Show avatars (on/off)
-- Content alignment (left/center/right)
-
-### Labels
-- Font sizes: Name (16px), Title (12px), Detail (11px)
-
-### Links
-- Link color/width (1.8 px)/opacity (0.8)
 
 
 ## License
