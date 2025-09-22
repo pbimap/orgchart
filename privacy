@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — Org Chart Power BI Visual</title>
+  <meta name="description" content="Privacy Policy for the Org Chart Power BI Visual." />
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #5b6576;
+      --accent: #2457e6;
+      --accent-soft: #e7efff;
+      --border: #e3e8ef;
+      --code-bg: #f3f5f9;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 48px 20px 80px;
+    }
+
+    header { margin-bottom: 24px; }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(36, 87, 230, 0.25);
+    }
+
+    h1 { font-size: 34px; line-height: 1.2; margin: 10px 0 6px; }
+    .subtitle { color: var(--muted); margin: 0 0 10px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(2, 8, 20, 0.04);
+    }
+
+    h2 { font-size: 20px; margin: 0 0 10px; }
+    h3 { font-size: 16px; margin: 14px 0 8px; color: var(--muted); }
+
+    p, li { color: #1f2937; }
+    ul { padding-left: 18px; margin: 8px 0; }
+
+    .toc a {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      margin: 6px 0;
+      background: #fff;
+    }
+
+    .note { font-size: 14px; color: var(--muted); }
+
+    footer {
+      margin-top: 40px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    code {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.95em;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media print {
+      .container { padding: 0; }
+      .card { box-shadow: none; }
+      a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 12px; color: var(--muted); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="badge">Privacy Policy</span>
+      <h1>Org Chart Power BI Visual</h1>
+      <p class="subtitle">Effective Date: <strong>Sept, 1, 2025 </strong></p>
+      <p class="note">Plain-language policy for AppSource submissions and enterprise buyers. No telemetry. No external data transfer. No cookies.</p>
+    </header>
+
+    <nav class="card toc" aria-label="Table of contents">
+      <h2 id="contents">Contents</h2>
+      <a href="#scope">1. Scope</a>
+      <a href="#data">2. Data We Handle</a>
+      <a href="#use">3. How We Use Data</a>
+      <a href="#processing">4. Processing & Storage</a>
+      <a href="#retention">5. Data Retention</a>
+      <a href="#security">6. Security</a>
+      <a href="#sharing">7. Sharing & Third Parties</a>
+      <a href="#rights">8. Your Rights</a>
+      <a href="#changes">9. Changes to this Policy</a>
+      <a href="#contact">10. Contact</a>
+      <a href="#jurisdiction">11. Region-Specific Notices</a>
+    </nav>
+
+    <section id="scope" class="card">
+      <h2>1. Scope</h2>
+      <p>This policy describes how the <em>Org Chart Power BI Visual</em> (the “Visual”) handles information when used within Microsoft Power BI Desktop and the Power BI service.</p>
+      <ul>
+        <li>The Visual is a client-side component that renders organizational charts using fields you bind in your report.</li>
+        <li>It is not a standalone SaaS and does not connect to our servers.</li>
+        <li>We do not receive, collect, or store report data.</li>
+      </ul>
+    </section>
+
+    <section id="data" class="card">
+      <h2>2. Data We Handle</h2>
+      <p><span class="pill">No External Collection</span></p>
+      <ul>
+        <li><strong>Report data:</strong> The Visual reads fields from your Power BI model strictly to render the chart (e.g., Employee ID, Manager ID, Names, Titles, Departments). This processing occurs within your Power BI environment.</li>
+        <li><strong>Identifiers:</strong> The Visual does not create persistent identifiers and does not track users across reports or sessions.</li>
+        <li><strong>Telemetry & cookies:</strong> None. The Visual does not use cookies, analytics, or telemetry.</li>
+      </ul>
+    </section>
+
+    <section id="use" class="card">
+      <h2>3. How We Use Data</h2>
+      <p>Data bound to the Visual is used solely to compute layout and render the organizational chart in your report. No data is transmitted to us or to third parties, and no profile or behavioral analytics are performed.</p>
+    </section>
+
+    <section id="processing" class="card">
+      <h2>4. Processing &amp; Storage</h2>
+      <ul>
+        <li><strong>Processing location:</strong> Within the user’s Power BI environment (Power BI Desktop or your organization’s Power BI service tenant).</li>
+        <li><strong>Network activity:</strong> The Visual does not call external endpoints. Any network controls (e.g., images or web content) are disabled or not used.</li>
+        <li><strong>Configuration:</strong> User preferences (if any) are stored in the report as part of the visual’s formatting settings, managed by Power BI.</li>
+      </ul>
+    </section>
+
+    <section id="retention" class="card">
+      <h2>5. Data Retention</h2>
+      <p>The Visual does not store or retain data outside of your report. Removing the Visual or deleting the report removes the configuration associated with it.</p>
+    </section>
+
+    <section id="security" class="card">
+      <h2>6. Security</h2>
+      <ul>
+        <li><strong>Attack surface:</strong> The Visual avoids <code>eval</code>, dynamic script injection, and unsafe DOM manipulations to align with Power BI visual guidelines.</li>
+        <li><strong>Transport:</strong> No external data transfer is initiated by the Visual.</li>
+        <li><strong>Environment security:</strong> Your organization’s Power BI tenant policies, identity, and access controls govern data security.</li>
+      </ul>
+    </section>
+
+    <section id="sharing" class="card">
+      <h2>7. Sharing &amp; Third Parties</h2>
+      <ul>
+        <li><strong>No sale or sharing:</strong> We do not sell, rent, share, or disclose personal information.</li>
+        <li><strong>Third-party services:</strong> None are used by the Visual.</li>
+        <li><strong>Legal compliance:</strong> If we are ever legally required to disclose information, we would disclose only what is strictly necessary and lawful. As designed, we do not possess your report data.</li>
+      </ul>
+    </section>
+
+    <section id="rights" class="card">
+      <h2>8. Your Rights</h2>
+      <p>Because we do not receive or store your report data, requests to access, correct, delete, or export such data should be directed to your organization’s Power BI administrator (the data controller). If you contact us, we will assist by explaining this architecture.</p>
+    </section>
+
+    <section id="changes" class="card">
+      <h2>9. Changes to this Policy</h2>
+      <p>We may update this policy to reflect improvements or compliance updates. Changes will be posted on this page with a revised Effective Date.</p>
+    </section>
+
+    <section id="contact" class="card">
+      <h2>10. Contact</h2>
+      <p>Questions? Contact the publisher:</p>
+      <ul>
+        <li>Email: <a href="mailto:pbimap@outlook.com">pbimap@outlook.com</a></li>
+
+      </ul>
+      <p class="note">For report data issues, contact your organization’s Power BI administrator.</p>
+    </section>
+
+    <section id="jurisdiction" class="card">
+      <h2>11. Region-Specific Notices</h2>
+      <h3>GDPR / UK GDPR</h3>
+      <p>The Visual does not transmit personal data to the publisher. Your organization remains the controller of any personal data in your reports. No international data transfers occur via the Visual.</p>
+      <h3>California (CCPA/CPRA)</h3>
+      <p>The Visual does not sell or share personal information, does not use cross-context behavioral advertising, and does not retain data beyond your report.</p>
+    </section>
+
+    <footer>
+      <p>© <span id="year"></span> Org Chart Power BI Visual Publisher. All rights reserved.</p>
+      <p class="note">Version: 1.0 · Last updated: <span id="last-updated"></span></p>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const opts = { year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('last-updated').textContent = new Date().toLocaleDateString(undefined, opts);
+  </script>
+</body>
+</html>
