@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Org Chart - Power BI Hierarchies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent-color: #0f172a;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --shadow-light: 0 1px 2px rgba(0,0,0,0.3);
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111827;
+            --bg-light: #1f2937;
+            --neon-accent: #00ff88;
+            --bmc-color: #FFDD00;
+        }
+
+        [data-theme="light"] {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent-color: #f8fafc;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-light: 0 1px 2px rgba(0,0,0,0.1);
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-light: #f1f5f9;
+            --neon-accent: #00ff88;
+            --bmc-color: #FFDD00;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.5;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            transition: all 0.3s ease;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 1rem; }
+
+        /* Nav */
+        nav {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        .nav-container {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.75rem 0;
+        }
+
+        .logo {
+            font-size: 1.25rem; font-weight: 700; color: var(--primary-color);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .nav-links {
+            display: flex; list-style: none; gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none; color: var(--text-secondary); font-weight: 500;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: var(--primary-color); }
+
+        .nav-right {
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+
+        .theme-toggle {
+            background: none; border: 1px solid var(--border-color); color: var(--text-secondary);
+            padding: 0.5rem; border-radius: 50%; cursor: pointer; transition: all 0.2s ease;
+            font-size: 0.9rem; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center;
+        }
+
+        .theme-toggle:hover { border-color: var(--primary-color); color: var(--primary-color); }
+
+        .bmc-button {
+            padding: 0.5rem; border-radius: 6px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace;
+            transition: all 0.2s ease; border: 1px solid var(--border-color);
+        }
+
+        .bmc-button:hover { border-color: var(--primary-color); }
+
+        .download-button {
+            background: var(--primary-color); color: var(--bg-primary); padding: 0.5rem 1rem;
+            border-radius: 6px; text-decoration: none; font-weight: 600;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; transition: background 0.2s ease;
+        }
+
+        .download-button:hover { background: var(--primary-dark); }
+
+        /* Hero/Home */
+        #home { background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--accent-color) 100%); padding: 2rem 0; text-align: center; }
+
+        #home h1 {
+            font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; margin-bottom: 0.5rem;
+            color: var(--primary-color); font-family: 'JetBrains Mono', monospace;
+        }
+
+        #home p {
+            font-size: 1.1rem; max-width: 600px; margin: 0 auto 1rem; color: var(--text-secondary);
+        }
+
+        .stats {
+            display: flex; justify-content: center; gap: 2rem; padding: 1rem 0;
+            background: var(--bg-light); margin: 1rem 0; font-size: 0.9rem;
+        }
+
+        .stat-item { text-align: center; }
+
+        .stat-number {
+            font-size: 1.5rem; font-weight: 700; color: var(--neon-accent);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label { color: var(--text-secondary); }
+
+        /* Overview */
+        #overview { padding: 2rem 0; }
+
+        .section-title {
+            text-align: center; font-size: clamp(1.75rem, 2.5vw, 2rem); font-weight: 600;
+            margin-bottom: 1.5rem; color: var(--text-primary); font-family: 'JetBrains Mono', monospace;
+        }
+
+        .overview-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;
+        }
+
+        .overview-card {
+            background: var(--bg-secondary); border-radius: 6px; padding: 1rem;
+            border: 1px solid var(--border-color); transition: all 0.2s ease;
+        }
+
+        .overview-card:hover { border-color: var(--primary-color); box-shadow: var(--shadow-light); }
+
+        .overview-card i { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 0.5rem; display: block; }
+
+        .overview-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+
+        .overview-card p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* Sample */
+        #sample { padding: 2rem 0; background: var(--bg-light); }
+
+        .sample-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1rem;
+        }
+
+        .sample-card {
+            background: var(--bg-secondary); border-radius: 6px; overflow: hidden;
+            border: 1px solid var(--border-color); transition: all 0.2s ease;
+        }
+
+        .sample-card:hover { border-color: var(--primary-color); box-shadow: var(--shadow-light); }
+
+        .sample-card img { width: 100%; height: auto; display: block; }
+
+        .sample-caption {
+            padding: 1rem;
+        }
+
+        .sample-caption h3 {
+            font-size: 1.1rem; margin-bottom: 0.25rem; color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .sample-caption p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.4; }
+
+        /* Download */
+        #download { padding: 2rem 0; }
+
+        .download-buttons {
+            display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin: 1rem 0;
+        }
+
+        .download-btn {
+            background: var(--bg-light); color: var(--text-primary); padding: 0.75rem 1.5rem;
+            border-radius: 6px; text-decoration: none; font-weight: 600;
+            font-family: 'JetBrains Mono', monospace; display: inline-flex; align-items: center;
+            gap: 0.25rem; transition: all 0.2s ease; border: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+
+        .download-btn:hover {
+            background: var(--primary-color); color: var(--bg-primary); border-color: var(--primary-color);
+        }
+
+        .steps { max-width: 800px; margin: 0 auto; }
+
+        .step {
+            display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem;
+            padding: 1rem; background: var(--bg-secondary); border-radius: 6px;
+            border-left: 3px solid var(--primary-color); transition: all 0.2s ease;
+        }
+
+        .step:hover { box-shadow: var(--shadow-light); }
+
+        .step-number {
+            background: var(--primary-color); color: var(--bg-primary); width: 1.75rem; height: 1.75rem;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 600; font-family: 'JetBrains Mono', monospace; flex-shrink: 0; font-size: 0.85rem;
+        }
+
+        .step-content h4 {
+            font-size: 1.1rem; margin-bottom: 0.25rem; font-family: 'JetBrains Mono', monospace;
+        }
+
+        .step-content p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary); padding: 1.5rem 0; border-top: 1px solid var(--border-color);
+            text-align: center; margin-top: 2rem; font-size: 0.85rem;
+        }
+
+        .footer-content {
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;
+        }
+
+        .social-links { display: flex; gap: 0.75rem; }
+
+        .social-links a {
+            color: var(--text-secondary); font-size: 1rem; transition: color 0.2s ease;
+        }
+
+        .social-links a:hover { color: var(--primary-color); }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .overview-card, .sample-card, .step {
+            animation: fadeInUp 0.4s ease forwards; opacity: 0; transform: translateY(10px);
+        }
+
+        .overview-card:nth-child(1), .sample-card:nth-child(1), .step:nth-child(1) { animation-delay: 0.1s; }
+        .overview-card:nth-child(2), .sample-card:nth-child(2), .step:nth-child(2) { animation-delay: 0.2s; }
+        .overview-card:nth-child(3), .sample-card:nth-child(3), .step:nth-child(3) { animation-delay: 0.3s; }
+        .overview-card:nth-child(4), .sample-card:nth-child(4), .step:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { gap: 1rem; }
+            .stats { flex-direction: column; gap: 0.75rem; }
+            .overview-grid, .sample-grid { grid-template-columns: 1fr; }
+            .download-buttons { flex-direction: column; align-items: center; }
+            .step { flex-direction: column; text-align: center; }
+            .nav-right { gap: 0.5rem; }
+            .bmc-button { font-size: 0.8rem; padding: 0.4rem; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">Org Chart</div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#sample">Sample</a></li>
+                <li><a href="#download">QuickStart</a></li>
+            </ul>
+            <div class="nav-right">
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="https://github.com/pbimap/orgchart/releases" class="download-button">Download</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home">
+        <div class="container">
+            <h1>Org Chart for Power BI</h1>
+            <p>Build clean, interactive hierarchies from your data. Zoom, expand, style—done right for teams and reports.</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">2.0.0</div>
+                    <div class="stat-label">Version</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1K+</div>
+                    <div class="stat-label">Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">MIT</div>
+                    <div class="stat-label">License</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="overview">
+        <div class="container">
+            <h2 class="section-title">Overview</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <i class="fas fa-sitemap"></i>
+                    <h3>Hierarchies</h3>
+                    <p>Vertical or horizontal layouts. Auto-space nodes, expand up to 6 levels.</p>
+                </div>
+                <div class="overview-card">
+                    <i class="fas fa-user-circle"></i>
+                    <h3>Cards</h3>
+                    <p>Names, titles, avatars, metrics. Customize colors, borders, shadows.</p>
+                </div>
+                <div class="overview-card">
+                    <i class="fas fa-search-plus"></i>
+                    <h3>Interact</h3>
+                    <p>Zoom/pan, select paths, tooltips. Works with Power BI filters.</p>
+                </div>
+                <div class="overview-card">
+                    <i class="fas fa-plug"></i>
+                    <h3>Setup</h3>
+                    <p>Drag employee/manager IDs + details. No code, full formatting pane.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sample">
+        <div class="container">
+            <h2 class="section-title">Sample Views</h2>
+            <div class="sample-grid">
+                <div class="sample-card">
+                    <img src="https://via.placeholder.com/600x400/2563eb/ffffff?text=Vertical+Layout" alt="Vertical Sample" loading="lazy">
+                    <div class="sample-caption">
+                        <h3>Vertical Tree</h3>
+                        <p>Top-down for deep orgs. Curved links, easy expand.</p>
+                    </div>
+                </div>
+                <div class="sample-card">
+                    <img src="https://via.placeholder.com/600x400/1d4ed8/ffffff?text=Horizontal+Layout" alt="Horizontal Sample" loading="lazy">
+                    <div class="sample-caption">
+                        <h3>Horizontal Flow</h3>
+                        <p>Side-by-side for wide teams. Toggle in toolbar.</p>
+                    </div>
+                </div>
+                <div class="sample-card">
+                    <img src="https://via.placeholder.com/600x400/2563eb/ffffff?text=Card+Details" alt="Cards Sample" loading="lazy">
+                    <div class="sample-caption">
+                        <h3>Rich Cards</h3>
+                        <p>Avatars, badges, details. Align left/center/right.</p>
+                    </div>
+                </div>
+                <div class="sample-card">
+                    <img src="https://via.placeholder.com/600x400/1d4ed8/ffffff?text=Zoom+Select" alt="Interact Sample" loading="lazy">
+                    <div class="sample-caption">
+                        <h3>Zoom & Select</h3>
+                        <p>Pinch to zoom, highlight paths on click.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="download">
+        <div class="container">
+            <h2 class="section-title">Quick Start</h2>
+            <p style="text-align: center; color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 1rem;">Free MIT visual. Install in 1 min.</p>
+            <div class="download-buttons">
+                <a href="https://appsource.microsoft.com/en-us/product/power-bi-visuals/pbimap.orgchart" class="download-btn">
+                    <i class="fas fa-download"></i> AppSource
+                </a>
+                <a href="https://github.com/pbimap/orgchart/releases" class="download-btn">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+            <h3 style="text-align: center; margin: 1.5rem 0 1rem; font-size: 1.25rem; font-family: 'JetBrains Mono', monospace;">Quick Start</h3>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Import</h4>
+                        <p>Get from AppSource or .pbiviz file.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Bind Data</h4>
+                        <p>Employee ID, Manager ID, names, details.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Format</h4>
+                        <p>Tune sizes, colors, zoom in pane.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Use</h4>
+                        <p>Publish, share, filter.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; Made with ❤️ by PBIMap.</p>
+                <div class="social-links">
+                    <a href="https://github.com/pbimap/orgchart"><i class="fab fa-github"></i></a>
+                    <a href="mailto:pbimap@outlook.com"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        // Load theme
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.body.setAttribute('data-theme', savedTheme);
+        document.querySelector('.theme-toggle i').className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+
+
+        // Nav active on scroll
+        window.addEventListener('scroll', () => {
+            const sections = ['home', 'overview', 'sample', 'download'];
+            const links = document.querySelectorAll('.nav-links a');
+            let current = '';
+            sections.forEach(section => {
+                const el = document.getElementById(section);
+                if (el.getBoundingClientRect().top <= 100) current = section;
+            });
+            links.forEach(link => link.classList.remove('active'));
+            document.querySelector(`a[href="#${current}"]`).classList.add('active');
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.style.animationPlayState = 'running';
+            });
+        });
+        document.querySelectorAll('.overview-card, .sample-card, .step').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
